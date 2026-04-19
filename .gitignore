@@ -43,3 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase secrets - НЕ КОММИТИТЬ
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Environment
+.env
