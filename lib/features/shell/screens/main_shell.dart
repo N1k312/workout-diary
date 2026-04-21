@@ -35,7 +35,7 @@ class MainShell extends ConsumerWidget {
       backgroundColor: AppColors.bgPrimary,
       body: child,
       bottomNavigationBar: Container(
-        height: 64,
+        height: 64 + MediaQuery.paddingOf(context).bottom,
         decoration: const BoxDecoration(
           color: AppColors.bgPrimary,
           border: Border(
@@ -122,7 +122,7 @@ class _StartButton extends StatelessWidget {
         ),
         child: const Icon(
           LucideIcons.plus,
-          size: 22,
+          size: 20,
           color: AppColors.textPrimary,
         ),
       ),

@@ -10,8 +10,14 @@ class ProfileScreenPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgPrimary,
+      appBar: AppBar(
+        title: Text('Profile', style: AppTextStyles.titleLarge),
+        backgroundColor: AppColors.bgPrimary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
       body: Center(
-        child: Text('Profile — Sprint 5', style: AppTextStyles.bodyMedium),
+        child: Text('Profile — coming in Sprint 5', style: AppTextStyles.bodyMedium),
       ),
     );
   }

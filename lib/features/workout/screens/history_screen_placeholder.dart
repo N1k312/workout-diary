@@ -10,8 +10,14 @@ class HistoryScreenPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgPrimary,
+      appBar: AppBar(
+        title: Text('History', style: AppTextStyles.titleLarge),
+        backgroundColor: AppColors.bgPrimary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
       body: Center(
-        child: Text('History — Sprint 5', style: AppTextStyles.bodyMedium),
+        child: Text('History — coming in Sprint 5', style: AppTextStyles.bodyMedium),
       ),
     );
   }

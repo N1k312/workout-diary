@@ -10,8 +10,14 @@ class ExercisesScreenPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgPrimary,
+      appBar: AppBar(
+        title: Text('Exercises', style: AppTextStyles.titleLarge),
+        backgroundColor: AppColors.bgPrimary,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
       body: Center(
-        child: Text('Exercises — Sprint 3', style: AppTextStyles.bodyMedium),
+        child: Text('Exercises — coming in Sprint 3', style: AppTextStyles.bodyMedium),
       ),
     );
   }
