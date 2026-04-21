@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_radii.dart';
-import '../../constants/app_spacing.dart';
 import '../../constants/app_text_styles.dart';
 
 class AppTextInput extends StatelessWidget {
@@ -28,56 +27,70 @@ class AppTextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasError = errorText != null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          label,
-          style:
-              AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary),
-        ),
-        const SizedBox(height: AppSpacing.xs),
+        if (label.isNotEmpty)
+          Text(
+            label,
+            style: AppTextStyles.bodySmall
+                .copyWith(color: AppColors.textSecondary),
+          ),
+        const SizedBox(height: 6),
         Container(
-          height: 48,
           decoration: BoxDecoration(
             color: AppColors.bgTertiary,
             borderRadius: BorderRadius.circular(AppRadii.md),
+            border: hasError
+                ? Border.all(color: AppColors.error, width: 1)
+                : null,
           ),
-          child: TextField(
-            controller: controller,
-            obscureText: isPassword,
-            keyboardType: keyboardType,
-            textAlignVertical: TextAlignVertical.center,
-            style: AppTextStyles.bodyMedium,
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: AppTextStyles.bodyMedium
-                  .copyWith(color: AppColors.textTertiary),
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.base,
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  obscureText: isPassword,
+                  keyboardType: keyboardType,
+                  style: AppTextStyles.bodyMedium,
+                  cursorColor: AppColors.accentPrimary,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 14,
+                    ),
+                    hintText: hintText,
+                    hintStyle: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColors.textTertiary),
+                    isDense: true,
+                  ),
+                ),
               ),
-              suffixIcon: trailingIcon != null
-                  ? GestureDetector(
-                      onTap: onTrailingTap,
-                      child: Icon(
-                        trailingIcon,
-                        color: AppColors.textSecondary,
-                        size: 20,
-                      ),
-                    )
-                  : null,
-            ),
+              if (trailingIcon != null)
+                IconButton(
+                  icon: Icon(
+                    trailingIcon,
+                    size: 18,
+                    color: AppColors.textSecondary,
+                  ),
+                  onPressed: onTrailingTap,
+                  padding: const EdgeInsets.only(right: 8),
+                ),
+            ],
           ),
         ),
-        if (errorText != null) ...[
-          const SizedBox(height: AppSpacing.xs),
+        if (hasError) ...[
+          const SizedBox(height: 4),
           Text(
             errorText!,
-            style: AppTextStyles.bodySmall.copyWith(color: AppColors.error),
+            style:
+                AppTextStyles.bodySmall.copyWith(color: AppColors.error),
           ),
         ],
       ],

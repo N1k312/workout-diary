@@ -24,8 +24,9 @@ void main() async {
 
   if (kDebugMode) {
     try {
-      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      const host = '10.0.2.2';
+      await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+      FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
       debugPrint('Connected to Firebase emulators (Auth:9099, Firestore:8080)');
     } catch (e) {
       debugPrint('Emulator connection skipped: $e');
