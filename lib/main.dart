@@ -47,6 +47,19 @@ class WorkoutDiaryApp extends ConsumerWidget {
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       routerConfig: router,
+      builder: (context, child) {
+        return GestureDetector(
+          onTap: () {
+            final currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              currentFocus.unfocus();
+            }
+          },
+          behavior: HitTestBehavior.opaque,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }
