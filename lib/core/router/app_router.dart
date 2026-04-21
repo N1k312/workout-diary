@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/providers/auth_providers.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
@@ -14,9 +15,63 @@ import '../../features/workout/screens/workout_start_placeholder.dart';
 import 'route_paths.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final notifier = ValueNotifier<int>(0);
+
+  ref.listen(authStateProvider, (prev, next) {
+    debugPrint(
+      '[router] authStateProvider changed: '
+      'hasValue=${next.hasValue}, '
+      'user=${next.asData?.value?.uid}',
+    );
+    notifier.value++;
+  });
+
+  ref.onDispose(notifier.dispose);
+
   return GoRouter(
     initialLocation: AppRoutes.splash,
     debugLogDiagnostics: kDebugMode,
+    refreshListenable: notifier,
+    redirect: (context, state) {
+      final authState = ref.read(authStateProvider);
+      final currentPath = state.matchedLocation;
+      final user = authState.asData?.value;
+      final isLoggedIn = user != null;
+      final isAuthRoute = currentPath == AppRoutes.login ||
+          currentPath == AppRoutes.register;
+      final isSplash = currentPath == AppRoutes.splash;
+
+      debugPrint(
+        '[router] redirect: path=$currentPath, '
+        'hasValue=${authState.hasValue}, '
+        'user=${user?.uid}',
+      );
+
+      // Stay on splash until we have received at least one auth event
+      if (!authState.hasValue && isSplash) {
+        debugPrint('[router] decision: null (waiting for auth)');
+        return null;
+      }
+
+      if (isSplash) {
+        final target = isLoggedIn ? AppRoutes.home : AppRoutes.login;
+        debugPrint('[router] decision: $target (from splash)');
+        return target;
+      }
+
+      if (!isLoggedIn && !isAuthRoute) {
+        debugPrint('[router] decision: /login (not logged in)');
+        return AppRoutes.login;
+      }
+
+      if (isLoggedIn && isAuthRoute) {
+        debugPrint('[router] decision: /home (already logged in)');
+        return AppRoutes.home;
+      }
+
+      debugPrint('[router] decision: null (stay)');
+      return null;
+    },
     routes: [
       GoRoute(
         path: AppRoutes.splash,

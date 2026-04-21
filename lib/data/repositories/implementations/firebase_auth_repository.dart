@@ -6,16 +6,18 @@ import '../../services/auth_service.dart';
 import '../interfaces/i_auth_repository.dart';
 
 class FirebaseAuthRepository implements IAuthRepository {
-  FirebaseAuthRepository(this._authService);
+  FirebaseAuthRepository(this._authService) {
+    _authStream = _authService
+        .authStateChanges()
+        .map((user) => user != null ? AppUser.fromFirebaseUser(user) : null)
+        .asBroadcastStream();
+  }
 
   final AuthService _authService;
+  late final Stream<AppUser?> _authStream;
 
   @override
-  Stream<AppUser?> authStateChanges() {
-    return _authService.authStateChanges().map(
-          (user) => user != null ? AppUser.fromFirebaseUser(user) : null,
-        );
-  }
+  Stream<AppUser?> authStateChanges() => _authStream;
 
   @override
   AppUser? get currentUser {
