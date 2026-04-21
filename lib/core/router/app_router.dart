@@ -18,11 +18,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   final notifier = ValueNotifier<int>(0);
 
   ref.listen(authStateProvider, (prev, next) {
-    debugPrint(
-      '[router] authStateProvider changed: '
-      'hasValue=${next.hasValue}, '
-      'user=${next.asData?.value?.uid}',
-    );
     notifier.value++;
   });
 
@@ -41,35 +36,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           currentPath == AppRoutes.register;
       final isSplash = currentPath == AppRoutes.splash;
 
-      debugPrint(
-        '[router] redirect: path=$currentPath, '
-        'hasValue=${authState.hasValue}, '
-        'user=${user?.uid}',
-      );
-
-      // Stay on splash until we have received at least one auth event
-      if (!authState.hasValue && isSplash) {
-        debugPrint('[router] decision: null (waiting for auth)');
-        return null;
-      }
+      if (!authState.hasValue && isSplash) return null;
 
       if (isSplash) {
-        final target = isLoggedIn ? AppRoutes.home : AppRoutes.login;
-        debugPrint('[router] decision: $target (from splash)');
-        return target;
+        return isLoggedIn ? AppRoutes.home : AppRoutes.login;
       }
 
-      if (!isLoggedIn && !isAuthRoute) {
-        debugPrint('[router] decision: /login (not logged in)');
-        return AppRoutes.login;
-      }
+      if (!isLoggedIn && !isAuthRoute) return AppRoutes.login;
 
-      if (isLoggedIn && isAuthRoute) {
-        debugPrint('[router] decision: /home (already logged in)');
-        return AppRoutes.home;
-      }
+      if (isLoggedIn && isAuthRoute) return AppRoutes.home;
 
-      debugPrint('[router] decision: null (stay)');
       return null;
     },
     routes: [
