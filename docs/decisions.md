@@ -336,6 +336,7 @@
 - **Мышечная схема** (1 story) — сложная иллюстрация
 - **Notes для тренировки** (1 story) — поле `notes` зарезервировано в схеме, но UI не реализуем
 - **Per-exercise rest timer override** — упрощено до single default в Profile
+- **Google Sign-In** — google_sign_in 7.x требует SHA-1 keystore + не работает с Auth Emulator; email auth достаточен для MVP (см. ADR-65)
 
 **Итого вырезано:** 30 stories / 91 SP.
 
@@ -382,6 +383,19 @@
 **Выбрано:** поля есть в схеме, nullable, UI не реализован в MVP.  
 **Обоснование:** forward-compatibility — при добавлении фич в будущих итерациях не нужна миграция схемы. Добавить только UI.  
 **Важно для Claude Code:** НЕ создавать UI для этих полей в MVP.
+
+### ADR-65: Google Sign-In вырезан из MVP
+**Выбрано:** только email/password authentication в MVP. Google Sign-In кнопки остаются в UI как disabled placeholders.  
+**Причина:**
+- google_sign_in 7.x имеет новый initialization API, требует тщательной настройки SHA-1 debug keystore
+- Не работает с Firebase Auth Emulator — требует реальный Firebase проект для тестов
+- Email auth полностью покрывает паттерны (Service → Repository → Provider → UI), которые важны для защиты
+- Экономия ~45 минут на реально ценные фичи (Active Workout, models, tests)
+
+**Следствия:**
+- GoogleButton в Login/Register остаётся с onPressed: null
+- UI показывает наличие feature, implementation отложен на post-MVP
+- На защите: "архитектурно подготовлено, интеграция отложена в пользу core UX"
 
 ---
 
