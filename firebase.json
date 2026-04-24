@@ -1,1 +1,34 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"workout-diary-4d3d3","appId":"1:345198009546:android:d12842316b1a534770a833","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"workout-diary-4d3d3","configurations":{"android":"1:345198009546:android:d12842316b1a534770a833"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "workout-diary-4d3d3",
+          "appId": "1:345198009546:android:d12842316b1a534770a833",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "workout-diary-4d3d3",
+          "configurations": {
+            "android": "1:345198009546:android:d12842316b1a534770a833"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
+  }
+}
