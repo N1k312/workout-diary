@@ -9,6 +9,7 @@ import '../../../core/constants/app_spacing.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/router/route_paths.dart';
 import '../../../core/utils/snackbar_helper.dart';
+import '../widgets/exercise_picker_sheet.dart';
 import '../../../core/widgets/avatars/muscle_group_badge.dart';
 import '../../../core/widgets/buttons/primary_button.dart';
 import '../../../core/widgets/buttons/secondary_button.dart';
@@ -26,7 +27,7 @@ class WorkoutStartScreen extends ConsumerStatefulWidget {
 
 class _WorkoutStartScreenState extends ConsumerState<WorkoutStartScreen> {
   final _nameController = TextEditingController();
-  final List<ExerciseModel> _selectedExercises = [];
+  List<ExerciseModel> _selectedExercises = [];
 
   @override
   void dispose() {
@@ -243,27 +244,18 @@ class _WorkoutStartScreenState extends ConsumerState<WorkoutStartScreen> {
     showSuccessSnackBar(context, '${exercise.name} removed');
   }
 
-  void _openExercisePicker() {
-    showModalBottomSheet<void>(
+  Future<void> _openExercisePicker() async {
+    final result = await showModalBottomSheet<List<ExerciseModel>>(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppColors.bgSecondary,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppRadii.xl),
-        ),
-      ),
-      builder: (_) => Container(
-        height: 200,
-        padding: const EdgeInsets.all(AppSpacing.base),
-        child: Center(
-          child: Text(
-            'Exercise Picker — coming in Step 6',
-            style: AppTextStyles.bodyMedium,
-          ),
-        ),
+      backgroundColor: Colors.transparent,
+      builder: (_) => ExercisePickerSheet(
+        alreadySelectedIds: _selectedExercises.map((e) => e.id).toList(),
       ),
     );
+    if (result != null) {
+      setState(() => _selectedExercises = result);
+    }
   }
 
   Future<void> _handleStart() async {
