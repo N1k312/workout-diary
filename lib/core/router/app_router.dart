@@ -13,7 +13,7 @@ import '../../features/home/screens/home_screen_placeholder.dart';
 import '../../features/profile/screens/profile_screen_placeholder.dart';
 import '../../features/shell/screens/main_shell.dart';
 import '../../features/workout/screens/history_screen_placeholder.dart';
-import '../../features/workout/screens/workout_start_placeholder.dart';
+import '../../features/workout/screens/workout_start_screen.dart';
 import 'route_paths.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -86,7 +86,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.workoutStart,
-        builder: (context, state) => const WorkoutStartPlaceholder(),
+        builder: (context, state) => const WorkoutStartScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.activeWorkout,
+        builder: (context, state) {
+          final id = state.uri.queryParameters['id'];
+          return Scaffold(
+            appBar: AppBar(title: const Text('Active Workout (Sprint 4)')),
+            body: Center(child: Text('Workout ID: $id')),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.createExercise,
