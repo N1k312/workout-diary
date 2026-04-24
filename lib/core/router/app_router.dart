@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,7 +7,7 @@ import '../../features/auth/providers/auth_providers.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
-import '../../features/exercises/screens/exercises_screen_placeholder.dart';
+import '../../features/exercises/screens/exercise_library_screen.dart';
 import '../../features/home/screens/home_screen_placeholder.dart';
 import '../../features/profile/screens/profile_screen_placeholder.dart';
 import '../../features/shell/screens/main_shell.dart';
@@ -74,7 +75,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: AppRoutes.exercises,
-            builder: (context, state) => const ExercisesScreenPlaceholder(),
+            builder: (context, state) => const ExerciseLibraryScreen(),
           ),
           GoRoute(
             path: AppRoutes.profile,
@@ -86,6 +87,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: AppRoutes.workoutStart,
         builder: (context, state) => const WorkoutStartPlaceholder(),
       ),
+      GoRoute(
+        path: AppRoutes.createExercise,
+        builder: (context, state) => const _PlaceholderScreen(
+          title: 'Create Exercise',
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.exerciseDetail,
+        builder: (context, state) => const _PlaceholderScreen(
+          title: 'Exercise Detail',
+        ),
+      ),
     ],
   );
 });
+
+class _PlaceholderScreen extends StatelessWidget {
+  const _PlaceholderScreen({required this.title});
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(child: Text(title)),
+    );
+  }
+}

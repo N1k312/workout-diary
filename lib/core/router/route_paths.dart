@@ -10,4 +10,6 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String workoutStart = '/workout/start';
   static const String activeWorkout = '/workout/active';
+  static const String createExercise = '/exercises/create';
+  static const String exerciseDetail = '/exercises/:id';
 }
