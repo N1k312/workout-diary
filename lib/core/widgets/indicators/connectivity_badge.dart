@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../../data/providers/connectivity_provider.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_radii.dart';
 import '../../constants/app_spacing.dart';
 import '../../constants/app_text_styles.dart';
 
-class ConnectivityBadge extends StatelessWidget {
-  const ConnectivityBadge({super.key, required this.isOffline});
-
-  final bool isOffline;
+class ConnectivityBadge extends ConsumerWidget {
+  const ConnectivityBadge({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if (!isOffline) return const SizedBox.shrink();
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Default to online until stream emits — avoids false offline flash on start
+    final isOnline = ref.watch(connectivityProvider).asData?.value ?? true;
+    if (isOnline) return const SizedBox.shrink();
 
     return Container(
       height: 24,
