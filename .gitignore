@@ -53,3 +53,13 @@ firebase-debug.*.log
 
 # Environment
 .env
+
+# Claude Code extension artifacts
+.claude/
+.agents/
+skills-lock.json
+
+# Claude Code extension artifacts
+.claude/
+.agents/
+skills-lock.json
