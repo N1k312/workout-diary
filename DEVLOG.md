@@ -32,3 +32,42 @@
 ### Velocity
 - Planned: 13 steps / ~5h coding
 - Actual: 13 steps / ~7h (emulator/network issues ate ~1.5h)
+
+## Sprint 2 — Core Infrastructure (completed 2026-04-24)
+
+### Delivered
+- 4 enums: MuscleGroup, Equipment, Goal, Units with displayName helpers
+- 6 Freezed models: SetModel, ExerciseInWorkoutModel, ExerciseModel, WorkoutModel, PersonalRecordModel, UserProfileModel (all with fromJson/toJson roundtrip)
+- Helper extensions for business logic: computeOneRM (Epley), volume, totalVolume, computeTotalVolume, computeDurationSeconds
+- FirestoreService — generic CRUD wrapper (setDoc, addDoc, getDoc, docStream, collectionStream, updateDoc, deleteDoc, runTransaction, batch)
+- 4 repositories (interface + Firebase impl each): Exercise, Workout, User, Progress
+- ProgressRepository.detectPRsInWorkout — atomic PR detection after finish
+- Utility widgets: EmptyState, ErrorState, ConnectivityBadge, MuscleGroupBadge, SectionHeader, StatCard
+- ConnectivityProvider (StreamProvider<bool>) with connectivity_plus
+- 30 seed exercises in firebase/seed/exercises.json + bash script for emulator seeding
+- 31 unit tests covering 1RM, volume, workout model, JSON serialization
+
+### Key decisions made during sprint
+- DateTime serialization left as ISO 8601 strings (not Firestore Timestamp) — simpler, Firestore SDK handles roundtrip
+- Repositories throw AppException; Service layer lets FirebaseException propagate
+- Exercise filtering done client-side (isDeleted, isCustom+createdBy) to avoid complex Firestore OR queries
+- PR detection sequential (not batched) in detectPRsInWorkout — acceptable for MVP
+
+### Cut / Deferred
+- Mocktail-based repository tests — deferred to Sprint 6, 31 unit tests on pure logic sufficient for now
+
+### Key lessons
+- Freezed toJson() on nested models returns typed Dart objects, not plain Maps — use jsonDecode(jsonEncode(model.toJson())) for true JSON roundtrip tests
+- Epley formula for 1 rep is NOT identity: 100kg × 1 rep = 103.33, not 100 — it's an estimator, not a weight lookup
+- connectivity_plus 7.x onConnectivityChanged emits List<ConnectivityResult>, not a single value — check every element for ConnectivityResult.none
+
+### Start / Stop / Continue
+- Start: using FirestoreService helper — eliminates ~30% of repository boilerplate
+- Stop: [your note]
+- Continue: one layer per prompt (model → repo → provider), don't batch
+
+### Metrics
+- 25+ files created
+- 31 unit tests passing
+- flutter analyze: clean
+- Estimated time: ~4.5h actual vs 5-6h planned
