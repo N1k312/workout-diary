@@ -215,7 +215,9 @@ class _ExerciseLibraryScreenState
         title: 'No exercises found',
         subtitle: 'Try a different search',
         actionLabel: 'Create "$query"',
-        onAction: () => context.push(AppRoutes.createExercise),
+        onAction: () => context.push(
+          '${AppRoutes.createExercise}?name=${Uri.encodeComponent(query)}',
+        ),
       );
     }
 

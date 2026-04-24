@@ -14,6 +14,8 @@ class AppTextInput extends StatelessWidget {
     this.trailingIcon,
     this.onTrailingTap,
     this.hintText,
+    this.onChanged,
+    this.maxLines,
   });
 
   final String label;
@@ -24,6 +26,8 @@ class AppTextInput extends StatelessWidget {
   final IconData? trailingIcon;
   final VoidCallback? onTrailingTap;
   final String? hintText;
+  final ValueChanged<String>? onChanged;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +59,8 @@ class AppTextInput extends StatelessWidget {
                   controller: controller,
                   obscureText: isPassword,
                   keyboardType: keyboardType,
+                  maxLines: isPassword ? 1 : maxLines,
+                  onChanged: onChanged,
                   style: AppTextStyles.bodyMedium,
                   cursorColor: AppColors.accentPrimary,
                   decoration: InputDecoration(

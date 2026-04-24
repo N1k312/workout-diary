@@ -7,6 +7,7 @@ import '../../features/auth/providers/auth_providers.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/register_screen.dart';
 import '../../features/auth/screens/splash_screen.dart';
+import '../../features/exercises/screens/create_exercise_screen.dart';
 import '../../features/exercises/screens/exercise_library_screen.dart';
 import '../../features/home/screens/home_screen_placeholder.dart';
 import '../../features/profile/screens/profile_screen_placeholder.dart';
@@ -89,8 +90,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.createExercise,
-        builder: (context, state) => const _PlaceholderScreen(
-          title: 'Create Exercise',
+        builder: (context, state) => CreateExerciseScreen(
+          initialName: state.uri.queryParameters['name'],
         ),
       ),
       GoRoute(
