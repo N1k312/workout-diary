@@ -13,6 +13,7 @@ import '../../features/home/screens/home_screen_placeholder.dart';
 import '../../features/profile/screens/profile_screen_placeholder.dart';
 import '../../features/shell/screens/main_shell.dart';
 import '../../features/workout/screens/history_screen_placeholder.dart';
+import '../../features/exercises/screens/exercise_detail_screen.dart';
 import '../../features/workout/screens/workout_start_screen.dart';
 import 'route_paths.dart';
 
@@ -106,23 +107,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.exerciseDetail,
-        builder: (context, state) => const _PlaceholderScreen(
-          title: 'Exercise Detail',
+        builder: (context, state) => ExerciseDetailScreen(
+          exerciseId: state.pathParameters['id']!,
         ),
       ),
     ],
   );
 });
-
-class _PlaceholderScreen extends StatelessWidget {
-  const _PlaceholderScreen({required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text(title)),
-    );
-  }
-}

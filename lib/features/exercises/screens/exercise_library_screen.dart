@@ -194,7 +194,10 @@ class _ExerciseLibraryScreenState
                     ...list.map(
                       (ex) => Padding(
                         padding: const EdgeInsets.only(bottom: 6),
-                        child: ExerciseCard(exercise: ex, onTap: null),
+                        child: ExerciseCard(
+                          exercise: ex,
+                          onTap: () => context.push('/exercises/${ex.id}'),
+                        ),
                       ),
                     ),
                   ],
