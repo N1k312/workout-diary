@@ -71,3 +71,40 @@
 - 31 unit tests passing
 - flutter analyze: clean
 - Estimated time: ~4.5h actual vs 5-6h planned
+
+## Sprint 3 — Exercise Library + Workout Start (completed 2026-04-25)
+
+### Delivered
+- Exercise providers: allExercisesProvider (StreamProvider), exerciseFilterProvider (Notifier), filteredExercisesProvider (derived), groupedExercisesProvider (Map<MuscleGroup, List>), exerciseByIdProvider (family)
+- Exercise Library screen — search, filter chips by muscle, grouped list, "Create '$query'" empty state shortcut
+- ExerciseCard widget with muscle badge, name, equipment, Custom badge for user-created
+- Create Custom Exercise screen with name validation, muscle/equipment bottom-sheet pickers, optional description
+- Exercise Detail screen with PR card, fl_chart line chart with period picker (1M/3M/6M/1Y/All), history list
+- Workout providers: workoutsProvider (stream), activeWorkoutProvider (future), workoutByIdProvider (family stream), WorkoutStartNotifier (AsyncNotifier)
+- Workout Start screen: name input, ReorderableListView, ExerciseInWorkoutRow with drag handle and remove
+- Exercise Picker bottom sheet (85% screen): search + chips + multi-select + "Create new" shortcut from empty search
+- End-to-end Workout Start flow: select exercises → name → Start → Firestore document created → navigates to Active Workout placeholder
+
+### Bugs fixed during sprint
+- "Invalid argument: Instance of '_ExerciseInWorkoutModel'" on workout start — fixed by adding build.yaml with `explicit_to_json: true` so json_serializable calls `.toJson()` on nested Freezed objects instead of dumping raw Dart instances
+
+### Key decisions made during sprint
+- ChartPeriod enum lives with provider (NotifierProvider.autoDispose.family) — auto-resets on screen exit
+- Chart shows estimatedOneRM (not raw weight) — better comparison across rep ranges
+- Picker uses local state (not exerciseFilterProvider) — ephemeral, doesn't pollute Library filter
+
+### Cut / Deferred
+- Editing custom exercises — deferred to Sprint 6 polish
+- Soft-deleting custom exercises — deferred (needs UI confirmation dialog)
+- Period picker bottom sheet styling — currently functional but minimal
+
+### Start / Stop / Continue
+- Start: testing every step on emulator before commit catches integration bugs early
+- Stop: skipping flutter analyze between sub-steps
+- Continue: one screen per step, never two
+
+### Metrics
+- 8 new screens/widgets created
+- ~20 files added to lib/features/exercises and lib/features/workout
+- flutter analyze: clean
+- Estimated time: ~4-5h actual
