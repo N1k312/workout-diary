@@ -260,12 +260,14 @@ class _WorkoutStartScreenState extends ConsumerState<WorkoutStartScreen> {
 
   Future<void> _handleStart() async {
     if (_selectedExercises.isEmpty) return;
+    debugPrint('[ui._handleStart] before await');
     final workout = await ref
         .read(workoutStartNotifierProvider.notifier)
         .startWorkout(
           name: _nameController.text,
           exercises: _selectedExercises,
         );
+    debugPrint('[ui._handleStart] after await, workout=${workout?.id}');
     if (workout != null && mounted) {
       context.pushReplacement(
         '${AppRoutes.activeWorkout}?id=${workout.id}',

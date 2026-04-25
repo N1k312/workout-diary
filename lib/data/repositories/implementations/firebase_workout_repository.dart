@@ -81,10 +81,12 @@ class FirebaseWorkoutRepository implements IWorkoutRepository {
         exercises: exercises,
       );
       final data = workout.toJson()..remove('id');
+      debugPrint('[repo.startWorkout] data to write: $data');
       final id = await _firestore.addDoc(
         collectionPath: _workoutsPath(userId),
         data: data,
       );
+      debugPrint('[repo.startWorkout] addDoc returned id=$id');
       return workout.copyWith(id: id);
     } catch (e) {
       throw ErrorMapper.fromAny(e);

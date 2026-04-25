@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/app_exception.dart';
@@ -57,8 +58,10 @@ class WorkoutStartNotifier extends AsyncNotifier<WorkoutModel?> {
     required String name,
     required List<ExerciseModel> exercises,
   }) async {
+    debugPrint('[startWorkout] called, name=$name, exercises=${exercises.length}');
     state = const AsyncLoading();
     final result = await AsyncValue.guard(() async {
+      debugPrint('[startWorkout] inside guard, calling repo');
       final user = ref.read(authStateProvider).asData?.value;
       if (user == null) throw const AuthException('Not signed in');
 
@@ -80,7 +83,10 @@ class WorkoutStartNotifier extends AsyncNotifier<WorkoutModel?> {
           );
     });
     state = result;
-    return result.asData?.value;
+    debugPrint('[startWorkout] result = $result');
+    final started = result.asData?.value;
+    debugPrint('[startWorkout] returning ${started?.id}');
+    return started;
   }
 }
 

@@ -36,5 +36,5 @@ Map<String, dynamic> _$WorkoutModelToJson(_WorkoutModel instance) =>
       'duration': instance.duration,
       'totalVolume': instance.totalVolume,
       'notes': instance.notes,
-      'exercises': instance.exercises,
+      'exercises': instance.exercises.map((e) => e.toJson()).toList(),
     };
